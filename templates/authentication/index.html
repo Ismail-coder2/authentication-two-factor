@@ -1,0 +1,35 @@
+{% extends "authentication/common.html" %}
+
+
+{% block content %}
+<style>
+.item{
+    width: 600px;
+}
+
+</style>
+    <div class="container" style="padding-top: 200px;">
+
+        {% if user.is_authenticated %}
+            <div class="user-info">
+                <h3>Hello, {{ fname }}</h3>
+                <h4>You're successfully logged in.</h4>
+                <button type="button" class="btn btn-outline-primary"><a href="/signout">Sign Out</a></button>
+                <br>
+                <button type="button" class="btn btn-outline-primary"><a href="/register">Two step</a></button>
+            </div>
+        {% else %}
+        <div class="d-flex w-100 justify-content-center align-items-center" >
+    
+        <div class="item ">
+            <h1 style="font-size: 100px;">Django Authentication  Module</h1>
+            <div class="auth-buttons mt-5">
+                <a href="/signup" class="text-white"><button type="button" class="btn btn-primary">&nbsp; &nbsp;Sign Up&nbsp;&nbsp;</button></a>
+                <a href="/signin" class="text-white"><button type="button" class="btn btn-success">&nbsp; &nbsp;Sign In&nbsp; &nbsp;</button></a>
+                </div>
+        </div>
+        </div>
+            
+        {% endif %}
+    </div>
+{% endblock %}

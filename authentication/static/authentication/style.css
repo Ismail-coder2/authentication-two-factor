@@ -1,0 +1,29 @@
+
+body{
+        background-color: black;
+
+        background-attachment: fixed;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-clip: content-box;
+        backdrop-filter: blur(3px) !important;
+
+        height: 100vh;
+
+
+
+    }
+
+h1{
+        color:rgb(255, 255, 255);
+    }
+
+    @media only screen and (max-width: 700px) {
+        h1{
+            font-size: 60px !important;
+        }
+    }
+    .btn{
+        border-radius: 18px;
+    }

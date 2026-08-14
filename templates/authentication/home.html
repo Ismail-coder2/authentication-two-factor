@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            color: #fff;
+            transition: width 0.3s;
+            position: fixed;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            z-index: 1000;
+            padding-top: 60px;
+        }
+
+        .sidebar.collapsed {
+            width: 60px;
+        }
+
+        .sidebar.collapsed ul li a span {
+            display: none;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar li a {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: black;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar li a:hover {
+            background-color: #555;
+            color: #fff;
+        }
+
+        .sidebar li a i {
+            margin-right: 10px;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            /* Same width as sidebar */
+            transition: margin-left 0.3s;
+            padding: 20px;
+        }
+
+        .sidebar.collapsed+.main-content {
+            margin-left: 60px;
+        }
+
+        .main-content .container-fluid {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-sidebar {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+            z-index: 1100;
+            padding: 10px;
+        }
+
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .chart-card {
+            flex: 1;
+        }
+
+        .chart-card canvas {
+            height: 400px;
+            /* Set a fixed height for the charts */
+        }
+
+        .popup-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            padding: 20px;
+            border-radius: 8px;
+
+            z-index: 1200;
+            width: 60%;
+
+        }
+
+        .popup-content {
+
+            background-color: #f8f9fb;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            max-width: auto;
+            overflow: auto;
+
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <button class="toggle-sidebar"><i class="bi bi-chevron-double-left"></i></button>
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#"><i class="bi bi-house-door"></i> <span>Dashboard</span></a></li>
+            <li><a href="#"><i class="bi bi-list-check"></i> <span>Tasks</span></a></li>
+            <li><a href="#"><i class="bi bi-book"></i> <span>Courses</span></a></li>
+            <li><a href="#"><i class="bi bi-people"></i> <span>Users</span></a></li>
+            <li><a href="/signout"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a></li>
+        </ul>
+    </div>
+
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <nav class="navbar navbar-expand-lg bg-body-tertiary container-fluid mb-3">
+  <div class="container-fluid" style="background-color: none !important; box-shadow: none !important;">
+    <a class="navbar-brand" href="#">Google Authenticator Application</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav m-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+        <div class="container-fluid">
+<!--            <h1 class="mt-4">Dashboard</h1>-->
+
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Metric 1</h5>
+                            <p class="card-text" id="metric1">100</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body bg-success text-white">
+                            <h5 class="card-title">Metric 2</h5>
+                            <p class="card-text" id="metric2">200</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body bg-warning text-white">
+                            <h5 class="card-title ">Metric 3</h5>
+                            <p class="card-text" id="metric3">300</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container mt-3">
+                <div class="chart-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas id="myPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- User Information Popup Container -->
+            <div class="popup-container" id="userPopup">
+                <div class="popup-content">
+                    <button type="button" class="close" aria-label="Close" id="closePopup">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="card-title">User Information</h5>
+                    <p class="card-text" id="userInfo">Hello , {{user_full_name}}</p>
+                    <div class="container mt-5">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Username</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.first_name }}</td>
+                                <td>{{ user.last_name }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    <div class=" mt-4">
+
+                            {% if ts_toggle %}
+                            <label> <strong>Two Factor Verification is on </strong>:</label> </br>
+                            <a href="/qr-auth-toggle/"><button type="button" class="btn btn-success">TURN
+                                    OFF</button></a>
+
+                            {% else %}
+                            <label>Please turn on for <strong>Two Factor Verification </strong>:</label> </br>
+                            <a href="/qr-auth-toggle"><button type="button" class="btn btn-danger">TURN ON </button></a>
+                            {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-Wk8kH1yrxVQmcb6KEV4+6Fu0Qk25Rfay/G2DPVYq+vf6e6F1E5tukw2crZdjv8Jp"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Toggle sidebar function
+            $('.toggle-sidebar').on('click', function () {
+                $('.sidebar').toggleClass('collapsed');
+                $('.main-content').toggleClass('sidebar-collapsed');
+                $(this).find('i').toggleClass('bi-chevron-double-left bi-chevron-double-right');
+            });
+
+            // Dummy data for the charts
+            const dummyBarChartData = {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                values: [10, 20, 30, 40, 50, 60]
+            };
+
+            const dummyPieChartData = {
+                labels: ['Red', 'Blue', 'Yellow'],
+                values: [30, 50, 20]
+            };
+
+            // Update bar chart function
+            function updateBarChart(chartData) {
+                var ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                            label: 'Example Data',
+                            data: chartData.values,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Update pie chart function
+            function updatePieChart(chartData) {
+                var ctx = document.getElementById('myPieChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                            label: 'Example Data',
+                            data: chartData.values,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    }
+                });
+            }
+
+            // Update charts with dummy data
+            updateBarChart(dummyBarChartData);
+            updatePieChart(dummyPieChartData);
+
+            // Example edit profile button click handler
+            $('.btn-primary').on('click', function (e) {
+                e.preventDefault();
+                alert('Edit Profile Clicked');
+            });
+
+            // Example turn on/off two-factor authentication button click handler
+            // $('.btn-success').on('click', function (e) {
+            //     e.preventDefault();
+            //     alert('Toggle Two-Factor Authentication Clicked');
+            // });
+
+            // Show user popup on user icon click
+            $('.bi-people').closest('li').on('click', function (e) {
+                e.preventDefault();
+                $('#userPopup').fadeIn();
+            });
+
+            // Close popup when clicking outside of it
+            $(document).mouseup(function (e) {
+                var container = $("#userPopup");
+                if (!container.is(e.target) && container.has(e.target).length === 0) {
+                    container.fadeOut();
+                }
+            });
+            $(document).ready(function () {
+                // Other code...
+
+                // Close popup when close button is clicked
+                $('#closePopup').on('click', function () {
+                    $('#userPopup').fadeOut();
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

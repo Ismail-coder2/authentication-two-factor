@@ -1,0 +1,149 @@
+{% extends "authentication/common.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+    #signup-box {
+        background-color: var(--box-color) !important;
+        color: var(--box-color);
+        border-radius: 20px;
+    }
+
+    button {
+        width: 270px;
+        height: 40px;
+        font-size: 14px !important;
+    }
+
+    /* styles.css */
+    .password-container {
+        position: relative;
+        width: 100%;
+    }
+
+    .password-container .form-control {
+        width: 100%;
+        padding-right: 50px;
+        /* Space for the button */
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: -100px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .toggle-password i {
+        font-size: 18px;
+        color: black;
+    }
+</style>
+<div class="container p-4">
+    <h1 class="text-primary">Sign Up</h1>
+    <br>
+    <div class="d-flex justify-content-md-start  p-4 box-shedow" id="signup-box">
+        <!--            <div class="col-md-6 d-none d-md-block"><img src="{% static 'authentication/signup.svg'%}" alt="" style="width: 550px;"></div>-->
+        <div class="col-md-7 col-12">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <!-- <label for="username" class="form-label">Username</label> -->
+                    <input type="text" class="form-control" name="username" id="username"
+                        placeholder="Enter your username" value="{{ username }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <!-- <label for="fname" class="form-label">First Name</label> -->
+                    <input type="text" class="form-control" name="fname" id="fname" placeholder="Enter your first name"
+                        value="{{ fname }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <!-- <label for="lname" class="form-label">Last Name</label> -->
+                    <input type="text" class="form-control" name="lname" id="lname" placeholder="Enter your last name"
+                        value="{{ lname }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <!-- <label for="email" class="form-label">Email address</label> -->
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email"
+                        value="{{ email }}" required>
+                </div>
+
+                <!--            <div class="mb-3">-->
+                <!--                <label for="pass1" class="form-label">Password</label>-->
+                <!--                <input type="password" class="form-control" name="pass1" id="pass1" placeholder="Enter your password" required>-->
+                <!--            </div>-->
+
+                <!--            <div class="mb-3">-->
+                <!--                <label for="pass2" class="form-label">Password again</label>-->
+                <!--                <input type="password" class="form-control" name="pass2" id="pass2" placeholder="Enter your password again" required>-->
+                <!--            </div>-->
+                <div class="mb-3">
+                    <!-- <label for="pass1" class="form-label">Password</label> -->
+                    <div class="password-container">
+                        <input type="password" class="form-control" name="pass1" id="pass1"
+                            placeholder="Enter your password" required>
+                        <button type="button" class="toggle-password" id="togglePass1">
+                            <i class="fas fa-eye-slash" id="toggleIcon1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <!-- <label for="pass2" class="form-label">Password again</label> -->
+                    <div class="password-container">
+                        <input type="password" class="form-control" name="pass2" id="pass2"
+                            placeholder="Enter your password again" required>
+                        <button type="button" class="toggle-password" id="togglePass2">
+                            <i class="fas fa-eye-slash" id="toggleIcon2"></i>
+                        </button>
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    // script.js
+    document.addEventListener('DOMContentLoaded', () => {
+        const togglePasswordVisibility = (inputId, buttonId, iconId) => {
+            const passwordField = document.getElementById(inputId);
+            const togglePasswordButton = document.getElementById(buttonId);
+            const toggleIcon = document.getElementById(iconId);
+
+            togglePasswordButton.addEventListener('click', () => {
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+
+                if (type === 'password') {
+                    toggleIcon.classList.add('fa-eye-slash');
+                    toggleIcon.classList.remove('fa-eye');
+
+                } else {
+
+                    toggleIcon.classList.add('fa-eye');
+                    toggleIcon.classList.remove('fa-eye-slash');
+
+                }
+            });
+        };
+
+        togglePasswordVisibility('pass1', 'togglePass1', 'toggleIcon1');
+        togglePasswordVisibility('pass2', 'togglePass2', 'toggleIcon2');
+    });
+
+</script>
+{% endblock content %}

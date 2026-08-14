@@ -1,2 +1,9 @@
-# authentication-two-factor
-authentication-two-factor verification which secure the users data ,it ueses the two step method like google authentication and QR  for verification of users credentials ,it also used by many big company's to safely login 
+<h1>E-Authentication System using QR Code And OTP</h1>
+<hr>
+<img src="README/img.png" > <br>
+<img src="README/img_1.png" > <br>
+<img src="README/img_2.png" > <br>
+<img src="README/img_3.png" ><br>
+<hr>
+
+<h4> build by kanhaiya chaudhari</h4>

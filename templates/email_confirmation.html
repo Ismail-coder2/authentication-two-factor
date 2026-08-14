@@ -1,0 +1,7 @@
+{% autoescape off %}
+welcome to django login
+hello {{name}}
+plese confirm your email
+
+link: http://{{domain}}{% url 'activate' uid64=uid token=token %}
+{% endautoescape %}
